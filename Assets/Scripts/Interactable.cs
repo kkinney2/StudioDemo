@@ -9,7 +9,7 @@ public class Interactable : MonoBehaviour
 
     public float interactDelay = 1f;
 
-    public virtual void Interact(Kneeman kneeman)
+    public virtual void Interact(Person person)
     {
         // THis method is meant to be overwritten
     }

@@ -23,20 +23,20 @@ public class Resource : Interactable
     }
 
 
-    public override void Interact(Kneeman kneeman)
+    public override void Interact(Person person)
     {
         if (markedForDestory == null)
         {
-            base.Interact(kneeman);
+            base.Interact(person);
 
             RemoveFromResource();
             switch (resourceType)
             {
                 case ResourceType.Wood:
-                    kneeman.owner.wood += 1;
+                    person.owner.wood += 1;
                     break;
                 case ResourceType.Rock:
-                    kneeman.owner.stone += 1;
+                    person.owner.stone += 1;
                     break;
                 default:
                     break;

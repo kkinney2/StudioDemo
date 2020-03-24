@@ -4,13 +4,13 @@ using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.UI;
 
-public class Kneeman : Interactable
+public class Person : Interactable
 {
     public KneemanManager owner;
 
     public NavMeshAgent agent;
 
-    public string myName = "Kneeman";
+    public string myName = "Pawn";
     public JobType myJob;
 
     public bool hasTask = false;
@@ -37,7 +37,7 @@ public class Kneeman : Interactable
     {
         if (myJob == JobType.Child)
             transform.localScale = new Vector3(0.5f, 0.5f, 0.5f); // TODO: This is only for temp while no model difference
-        
+
         if (agent.remainingDistance < 0.5f && agent.hasPath)
         {
             agent.destination = transform.position;
@@ -57,6 +57,7 @@ public class Kneeman : Interactable
 
         progressBar.maxValue = value;
 
+        // Delay/ProgressBar
         while (timePassed < value)
         {
             if (interactable == null)
@@ -69,28 +70,34 @@ public class Kneeman : Interactable
             yield return new WaitForEndOfFrame();
         }
 
-        //interactable.Interact(this);
-
+        Interact();
 
         EndTask();
 
         yield return null;
     }
 
-    /*
-    public override void Interact(Kneeman kneeman)
+    private void Interact()
     {
-        base.Interact(kneeman);
+        if (interactable)
+        {
+            interactable.Interact(this);
+        }
 
-        if (kneeman == interactable) // If they are both searching for each other...
+    }
+
+    public override void Interact(Person person)
+    {
+        base.Interact(person);
+
+        if (person == interactable) // If they are both searching for each other...
         {
             Debug.Log("Matched!");
-            kneeman.EndTask();
+            person.EndTask();
             EndTask();
-            owner.Mating(gameObject.transform, kneeman.transform);
+            owner.Mating(gameObject.transform, person.transform);
         }
     }
-    */
 
     public void ResetProgressBar()
     {

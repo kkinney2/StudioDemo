@@ -14,6 +14,7 @@ public class TerrainGenerator : MonoBehaviour
     [Space(10)]
 
     public bool generateTerrain = false;
+    public bool clearTerrain = false;
 
     private void Awake()
     {
@@ -30,8 +31,14 @@ public class TerrainGenerator : MonoBehaviour
         if (generateTerrain)
         {
             //StartCoroutine(Setup());
+            Clear();
             Setup();
             generateTerrain = false;
+        }
+        if (clearTerrain)
+        {
+            Clear();
+            clearTerrain = false;
         }
     }
 
@@ -55,12 +62,23 @@ public class TerrainGenerator : MonoBehaviour
             {
                 Vector3 spawnPos = new Vector3
                 (
-                    Ground.transform.position.x + Random.Range(-halfBoundingObjScale.x+1, halfBoundingObjScale.x-1),
+                    Ground.transform.position.x + Random.Range(-halfBoundingObjScale.x + 1, halfBoundingObjScale.x - 1),
                     0,
-                    Ground.transform.position.y + Random.Range(-halfBoundingObjScale.y+1, halfBoundingObjScale.y-1)
+                    Ground.transform.position.y + Random.Range(-halfBoundingObjScale.y + 1, halfBoundingObjScale.y - 1)
                 );
                 GameObject temp = Instantiate(objectToSpawn.obj, objectToSpawn.folder.transform);
                 temp.transform.position = spawnPos;
+            }
+        }
+    }
+
+    private void Clear()
+    {
+        foreach (ObjectToSpawn objectToSpawn in objsToSpawn)
+        {
+            if (objectToSpawn.folder != null)
+            {
+                DestroyImmediate(objectToSpawn.folder);
             }
         }
     }
